@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import profile_img from "../assets/images/user.jpg";
+import profile_img from "../assets/images/logo6.webp";
 import logo from "../assets/images/logo6.webp";
-import { decodeData, playNotiEffect, successToaster } from "../utils/Helper";
+import { decodeData, successToaster } from "../utils/Helper";
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshHandler } from "../store/slices/refreshSlice";
 

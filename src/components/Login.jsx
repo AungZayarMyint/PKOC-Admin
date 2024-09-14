@@ -11,9 +11,9 @@ import { ToastContainer } from "react-toastify";
 import { LOGIN_API } from "../service/constant";
 
 const Login = () => {
-  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userNameValidate, setUserNameValidate] = useState("");
+  const [userEmailValidate, setUserEmailValidate] = useState("");
   const [passwordValidate, setPasswordValidate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Login = () => {
     setIsLoading(true);
 
     const data = {
-      name: userName,
+      email: userEmail,
       password: password,
     };
     const res = await postMethod(`${LOGIN_API}`, data);
@@ -33,7 +33,7 @@ const Login = () => {
       window.location.reload();
     } else {
       errorToaster(res?.message);
-      res?.data?.name && setUserNameValidate(res?.data?.name);
+      res?.data?.email && setUserEmailValidate(res?.data?.email);
       res?.data?.password && setPasswordValidate(res?.data?.password);
     }
 
@@ -78,16 +78,16 @@ const Login = () => {
                     </div>
                   </div>
                   <Input
-                    title="User Name"
-                    type="text"
-                    error={userNameValidate}
+                    title="Email"
+                    type="email"
+                    error={userEmailValidate}
                     tabIndex={1}
                     placeholder="xyz..."
-                    name="userName"
-                    value={userName}
+                    name="Email"
+                    value={userEmail}
                     event={(e) => {
-                      setUserName(e.target.value);
-                      setUserNameValidate("");
+                      setUserEmail(e.target.value);
+                      setUserEmailValidate("");
                     }}
                   />
                   <Input

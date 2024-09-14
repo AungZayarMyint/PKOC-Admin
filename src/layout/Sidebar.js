@@ -62,9 +62,7 @@ const Sidebar = () => {
             >
               <div className="nav-item">
                 <Link
-                  className={`nav-link ${
-                    (url === "/posts" || url === "/") && "active"
-                  }`}
+                  className={`nav-link ${url === "/posts" || url === "/"}`}
                   to="/posts"
                 >
                   <i class="bi bi-postcard nav-icon"></i>

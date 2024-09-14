@@ -47,6 +47,30 @@ export const postMethod = async (api, data, token = "") => {
   }
 };
 
+export const postMultipleFormMethod = async (api, formData, token = "") => {
+  try {
+    const res = await fetch(`${api}`, {
+      method: "POST",
+      headers: {
+        accept: "multipart/form-data",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    }).then((res) => res.json());
+
+    if (res.status === 401) {
+      localStorage.removeItem("token");
+      errorToaster("Session expired. Please log in again!");
+      window.location.href("/login");
+    }
+
+    return res;
+  } catch (error) {
+    errorToaster(error.message);
+  }
+};
+
 export const postMethodUpload = async (api, data, token = "") => {
   try {
     const res = await fetch(`${api}`, {

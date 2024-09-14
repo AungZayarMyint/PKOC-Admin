@@ -3,14 +3,14 @@ import Template from "../utils/Template";
 import Input from "../utils/Input";
 import SubmitBtn from "../utils/SubmitBtn";
 import Card from "../utils/Card";
-import { getMethod, postMethod } from "../service";
+import { getMethod, postMethod } from "../service"; // Adjust the import path
 import {
   POST_DETAILS_API,
   UPDATE_POST_API,
   DELETE_POST_API,
-} from "../service/constant";
+} from "../service/constant"; // Adjust the import path
 import { useNavigate, useParams } from "react-router-dom";
-import { errorToaster, successToaster } from "../utils/Helper";
+import { errorToaster, successToaster, decodeData } from "../utils/Helper"; // Adjust the import path
 
 const PostDetails = () => {
   const { postId } = useParams();
@@ -23,8 +23,19 @@ const PostDetails = () => {
   useEffect(() => {
     const fetchPost = async () => {
       setIsLoading(true);
+      const token = decodeData(localStorage.getItem("r_c_a"));
+
+      if (!token) {
+        errorToaster("Unauthorized! Please login.");
+        navigate("/login");
+        return;
+      }
+
       try {
-        const res = await getMethod(`${POST_DETAILS_API}/${postId}`);
+        const res = await getMethod(
+          `${POST_DETAILS_API}/${postId}`,
+          token.token
+        );
         if (res?.isSuccess) {
           setPost(res.data);
           setTitle(res.data.title);
@@ -38,15 +49,27 @@ const PostDetails = () => {
       setIsLoading(false);
     };
     fetchPost();
-  }, [postId]);
+  }, [postId, navigate]);
 
   const updatePostHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
+    const token = decodeData(localStorage.getItem("r_c_a"));
+
+    if (!token) {
+      errorToaster("Unauthorized! Please login.");
+      navigate("/login");
+      return;
+    }
+
     const data = { title, description };
     try {
-      const res = await postMethod(`${UPDATE_POST_API}/${postId}`, data);
+      const res = await postMethod(
+        `${UPDATE_POST_API}/${postId}`,
+        data,
+        token.token
+      );
       if (res?.isSuccess) {
         successToaster("Post updated successfully!");
         navigate("/posts");
@@ -61,8 +84,21 @@ const PostDetails = () => {
 
   const deletePostHandler = async () => {
     setIsLoading(true);
+
+    const token = decodeData(localStorage.getItem("r_c_a"));
+
+    if (!token) {
+      errorToaster("Unauthorized! Please login.");
+      navigate("/login");
+      return;
+    }
+
     try {
-      const res = await postMethod(`${DELETE_POST_API}/${postId}`);
+      const res = await postMethod(
+        `${DELETE_POST_API}/${postId}`,
+        {},
+        token.token
+      );
       if (res?.isSuccess) {
         successToaster("Post deleted successfully!");
         navigate("/posts");

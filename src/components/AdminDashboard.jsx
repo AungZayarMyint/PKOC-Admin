@@ -76,6 +76,28 @@ const AdminDashboard = () => {
             </div>
           </Link>
         </div>
+        <div className="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+          <Link className="card card-hover-shadow h-100" to={"/users"}>
+            <div className="card-body">
+              <h6 className="card-subtitle">Total Users</h6>
+
+              <div className="row align-items-center gx-2 mb-1">
+                <div className="col-6">
+                  <h2 className="card-title text-inherit">
+                    {data?.total_user?.toLocaleString() || 0}
+                  </h2>
+                </div>
+                <div className="col-6">
+                  <div className="chartjs-custom" style={{ height: "3rem" }} />
+                </div>
+              </div>
+              <span className="badge bg-soft-success text-success">
+                <i className="bi-graph-up"></i> List
+              </span>
+              {/* <span className="text-body fs-6 ms-1">{amountCommasSparated(Number(data?.master_amount ?? 0))} MMK</span> */}
+            </div>
+          </Link>
+        </div>
       </div>
     </Template>
   );
